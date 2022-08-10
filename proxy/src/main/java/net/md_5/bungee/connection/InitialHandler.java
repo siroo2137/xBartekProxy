@@ -358,7 +358,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 break;
             case 2:
                 //botfilter
-                ch.getHandle().pipeline().get( Varint21FrameDecoder.class ).set119( handshake.getProtocolVersion() == ProtocolConstants.MINECRAFT_1_19 );
+                ch.getHandle().pipeline().get( Varint21FrameDecoder.class ).set119( handshake.getProtocolVersion() >= ProtocolConstants.MINECRAFT_1_19 );
                 // Login
                 bungee.getLogger().log( Level.INFO, "{0} has connected", this.toString() ); // BotFilter, use toString()
                 thisState = State.USERNAME;

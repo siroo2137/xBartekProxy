@@ -303,6 +303,8 @@ public class PacketUtils
                 return 30;
             case ProtocolConstants.MINECRAFT_1_19:
                 return 31;
+            case ProtocolConstants.MINECRAFT_1_19_1:
+                return 32;
             default:
                 throw new IllegalArgumentException( "Version is not supported" );
         }
