@@ -121,10 +121,6 @@ public class BotFilterThread
                         {
                             botFilter.getServerPingUtils().cleanUP();
                         }
-                        if ( botFilter.getSql() != null )
-                        {
-                            botFilter.getSql().tryCleanUP();
-                        }
                         if ( botFilter.getGeoIp() != null )
                         {
                             botFilter.getGeoIp().tryClenUP();

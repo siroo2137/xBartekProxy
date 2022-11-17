@@ -236,6 +236,8 @@ public class Settings extends Config
         public String USER = "user";
         public String PASSWORD = "password";
         public String DATABASE = "database";
+        @Comment("Интервал в милисекундах, как часто синхронизировать базу данных если используется мультибанжа")
+        public int SYNC_INTERVAL = -1;
     }
 
     @Comment("Настройка виртуального мира")
