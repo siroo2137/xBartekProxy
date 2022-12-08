@@ -3,6 +3,7 @@ package ru.leymooo.botfilter.caching;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.Channel;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 import net.md_5.bungee.api.ChatColor;
@@ -16,6 +17,7 @@ import net.md_5.bungee.protocol.packet.KeepAlive;
 import net.md_5.bungee.protocol.packet.Kick;
 import net.md_5.bungee.protocol.packet.PluginMessage;
 import ru.leymooo.botfilter.config.Settings;
+import ru.leymooo.botfilter.packets.DefaultSpawnPosition;
 import ru.leymooo.botfilter.packets.EmptyChunkPacket;
 import ru.leymooo.botfilter.packets.JoinGame;
 import ru.leymooo.botfilter.packets.PlayerAbilities;
@@ -31,8 +33,9 @@ import ru.leymooo.botfilter.utils.Dimension;
 public class PacketUtils
 {
 
+    private static int[] VERSION_REWRITE = new int[1024];
     public static final CachedCaptcha captchas = new CachedCaptcha();
-    private static final CachedPacket[] cachedPackets = new CachedPacket[11];
+    private static final CachedPacket[] cachedPackets = new CachedPacket[12];
     private static final HashMap<KickType, CachedPacket> kickMessagesGame = new HashMap<>( 3 );
     private static final HashMap<KickType, CachedPacket> kickMessagesLogin = new HashMap<>( 4 );
     public static int PROTOCOLS_COUNT = ProtocolConstants.SUPPORTED_VERSION_IDS.size();
@@ -57,6 +60,11 @@ public class PacketUtils
 
     public static void init()
     {
+        Arrays.fill( VERSION_REWRITE, -1 );
+        for ( int i = 0; i < ProtocolConstants.SUPPORTED_VERSION_IDS.size(); i++ )
+        {
+            VERSION_REWRITE[ProtocolConstants.SUPPORTED_VERSION_IDS.get( i )] = i;
+        }
         if ( expPackets != null )
         {
             expPackets.release();
@@ -116,6 +124,7 @@ public class PacketUtils
             new PlayerPositionAndLook( 7.00, 450, 7.00, 90f, 10f, 9876, false ), //8
             new SetExp( 0, 0, 0 ), //9
             createPluginMessage(), //10
+            new DefaultSpawnPosition( 7, 450, 7, 123 ) //11
         };
 
         for ( int i = 0; i < packets.length; i++ )
@@ -179,7 +188,7 @@ public class PacketUtils
             }
         }
 
-        throw new IllegalStateException( "Can not get id for " + packet.getClass().getSimpleName() + "(" + version + ")" );
+        return -1;
     }
 
     public static void releaseByteBuf(ByteBuf buf)
@@ -214,6 +223,10 @@ public class PacketUtils
             }
             int versionRewrited = rewriteVersion( version );
             int newPacketId = PacketUtils.getPacketId( packet, version, protocols );
+            if ( newPacketId == -1 )
+            {
+                continue;
+            }
             if ( newPacketId != oldPacketId )
             {
                 oldPacketId = newPacketId;
@@ -237,77 +250,12 @@ public class PacketUtils
 
     public static int rewriteVersion(int version)
     {
-        switch ( version )
+        int rewritten = VERSION_REWRITE[version];
+        if ( rewritten == -1 )
         {
-            case ProtocolConstants.MINECRAFT_1_8:
-                return 0;
-            case ProtocolConstants.MINECRAFT_1_9:
-                return 1;
-            case ProtocolConstants.MINECRAFT_1_9_1:
-                return 2;
-            case ProtocolConstants.MINECRAFT_1_9_2:
-                return 3;
-            case ProtocolConstants.MINECRAFT_1_9_4:
-                return 4;
-            case ProtocolConstants.MINECRAFT_1_10:
-                return 5;
-            case ProtocolConstants.MINECRAFT_1_11:
-                return 6;
-            case ProtocolConstants.MINECRAFT_1_11_1:
-                return 7;
-            case ProtocolConstants.MINECRAFT_1_12:
-                return 8;
-            case ProtocolConstants.MINECRAFT_1_12_1:
-                return 9;
-            case ProtocolConstants.MINECRAFT_1_12_2:
-                return 10;
-            case ProtocolConstants.MINECRAFT_1_13:
-                return 11;
-            case ProtocolConstants.MINECRAFT_1_13_1:
-                return 12;
-            case ProtocolConstants.MINECRAFT_1_13_2:
-                return 13;
-            case ProtocolConstants.MINECRAFT_1_14:
-                return 14;
-            case ProtocolConstants.MINECRAFT_1_14_1:
-                return 15;
-            case ProtocolConstants.MINECRAFT_1_14_2:
-                return 16;
-            case ProtocolConstants.MINECRAFT_1_14_3:
-                return 17;
-            case ProtocolConstants.MINECRAFT_1_14_4:
-                return 18;
-            case ProtocolConstants.MINECRAFT_1_15:
-                return 19;
-            case ProtocolConstants.MINECRAFT_1_15_1:
-                return 20;
-            case ProtocolConstants.MINECRAFT_1_15_2:
-                return 21;
-            case ProtocolConstants.MINECRAFT_1_16:
-                return 22;
-            case ProtocolConstants.MINECRAFT_1_16_1:
-                return 23;
-            case ProtocolConstants.MINECRAFT_1_16_2:
-                return 24;
-            case ProtocolConstants.MINECRAFT_1_16_3:
-                return 25;
-            case ProtocolConstants.MINECRAFT_1_16_4:
-                return 26;
-            case ProtocolConstants.MINECRAFT_1_17:
-                return 27;
-            case ProtocolConstants.MINECRAFT_1_17_1:
-                return 28;
-            case ProtocolConstants.MINECRAFT_1_18:
-                return 29;
-            case ProtocolConstants.MINECRAFT_1_18_2:
-                return 30;
-            case ProtocolConstants.MINECRAFT_1_19:
-                return 31;
-            case ProtocolConstants.MINECRAFT_1_19_1:
-                return 32;
-            default:
-                throw new IllegalArgumentException( "Version is not supported" );
+            throw new IllegalArgumentException( "Version is not supported" );
         }
+        return rewritten;
     }
 
     public static void spawnPlayer(Channel channel, int version, boolean disableFall, boolean captcha)
@@ -318,6 +266,10 @@ public class PacketUtils
         if ( disableFall )
         {
             channel.write( getCachedPacket( PacketsPosition.PLAYERABILITIES ).get( version ), channel.voidPromise() );
+        }
+        if ( version >= ProtocolConstants.MINECRAFT_1_19_3 )
+        {
+            channel.write( getCachedPacket( PacketsPosition.DEFAULT_SPAWN_POSITION ).get( version ), channel.voidPromise() );
         }
         if ( captcha )
         {

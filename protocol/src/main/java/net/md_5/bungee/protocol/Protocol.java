@@ -50,6 +50,7 @@ import net.md_5.bungee.protocol.packet.Team;
 import net.md_5.bungee.protocol.packet.Title;
 import net.md_5.bungee.protocol.packet.TitleTimes;
 import net.md_5.bungee.protocol.packet.ViewDistance;
+import ru.leymooo.botfilter.packets.DefaultSpawnPosition;
 import ru.leymooo.botfilter.packets.EmptyChunkPacket;
 import ru.leymooo.botfilter.packets.JoinGame;
 import ru.leymooo.botfilter.packets.Player;
@@ -646,6 +647,10 @@ public enum Protocol
                     map( ProtocolConstants.MINECRAFT_1_19_1, 0x54 ),
                     map( ProtocolConstants.MINECRAFT_1_19_3, 0x52 )
             );
+            TO_CLIENT.registerPacket(
+                    DefaultSpawnPosition.class, DefaultSpawnPosition::new,
+                    map( ProtocolConstants.MINECRAFT_1_19_3, 0x4C )
+            );
             TO_SERVER.registerPacket(
                     ClientSettings.class, ClientSettings::new,
                     map( ProtocolConstants.MINECRAFT_1_8, 0x15 ),
@@ -714,7 +719,8 @@ public enum Protocol
                     map( ProtocolConstants.MINECRAFT_1_16, 0x10 ),
                     map( ProtocolConstants.MINECRAFT_1_17, 0x0F ),
                     map( ProtocolConstants.MINECRAFT_1_19, 0x11 ),
-                    map( ProtocolConstants.MINECRAFT_1_19_1, 0x12 )
+                    map( ProtocolConstants.MINECRAFT_1_19_1, 0x12 ),
+                    map( ProtocolConstants.MINECRAFT_1_19_3, 0x11 )
             );
             TO_SERVER.registerPacket(
                     Chat.class, Chat::new,
@@ -741,7 +747,8 @@ public enum Protocol
                     map( ProtocolConstants.MINECRAFT_1_14, 0x0B ),
                     map( ProtocolConstants.MINECRAFT_1_17, 0x0A ),
                     map( ProtocolConstants.MINECRAFT_1_19, 0x0C ),
-                    map( ProtocolConstants.MINECRAFT_1_19_1, 0x0D )
+                    map( ProtocolConstants.MINECRAFT_1_19_1, 0x0D ),
+                    map( ProtocolConstants.MINECRAFT_1_19_3, 0x0C )
             );
         }
     };

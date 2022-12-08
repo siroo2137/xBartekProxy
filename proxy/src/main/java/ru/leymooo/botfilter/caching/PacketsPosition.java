@@ -21,6 +21,7 @@ public final class PacketsPosition
     public static int PLAYERPOSANDLOOK = 8;
     public static int SETEXP_RESET = 9;
     public static int PLUGIN_MESSAGE = 10;
+    public static int DEFAULT_SPAWN_POSITION = 11;
 
 
 

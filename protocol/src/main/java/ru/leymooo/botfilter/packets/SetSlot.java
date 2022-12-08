@@ -98,9 +98,12 @@ public class SetSlot extends DefinedPacket
         } else if ( version <= ProtocolConstants.MINECRAFT_1_18_2 )
         {
             return 847;
-        } else
+        } else if ( version <= ProtocolConstants.MINECRAFT_1_19_1 )
         {
             return 886;
+        } else
+        {
+            return 914;
         }
     }
 
