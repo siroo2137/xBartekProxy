@@ -31,7 +31,7 @@ public class LoginRequest extends DefinedPacket
         DefinedPacket.doLengthSanityChecks( buf, this, direction, protocolVersion, 0, EXPECTED_MAX_LENGTH ); //BotFilter
         data = readString( buf, 32 ); //BotFilter read 32 characters instead of 15
 
-        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 )
+        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 && protocolVersion < ProtocolConstants.MINECRAFT_1_19_3 )
         {
             publicKey = readPublicKey( buf );
         }
@@ -48,7 +48,7 @@ public class LoginRequest extends DefinedPacket
     public void write(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
     {
         writeString( data, buf );
-        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 )
+        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 && protocolVersion < ProtocolConstants.MINECRAFT_1_19_3 )
         {
             writePublicKey( publicKey, buf );
         }

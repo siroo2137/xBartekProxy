@@ -24,7 +24,7 @@ public class EncryptionResponse extends DefinedPacket
     {
         DefinedPacket.doLengthSanityChecks( buf, this, direction, protocolVersion, 260, 260 ); //BotFilter
         sharedSecret = readArray( buf, 128 );
-        if ( protocolVersion < ProtocolConstants.MINECRAFT_1_19 || buf.readBoolean() )
+        if ( protocolVersion < ProtocolConstants.MINECRAFT_1_19 || protocolVersion >= ProtocolConstants.MINECRAFT_1_19_3 || buf.readBoolean() )
         {
             verifyToken = readArray( buf, 128 );
         } else
@@ -39,7 +39,7 @@ public class EncryptionResponse extends DefinedPacket
         writeArray( sharedSecret, buf );
         if ( verifyToken != null )
         {
-            if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 )
+            if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 && protocolVersion <= ProtocolConstants.MINECRAFT_1_19_3 )
             {
                 buf.writeBoolean( true );
             }
