@@ -74,13 +74,13 @@ public class BotFilter
         Settings.IMP.reload( new File( "BotFilter", "config.yml" ) );
         Scoreboard.DISABLE_DUBLICATE = Settings.IMP.FIX_SCOREBOARD_TEAMS;
         checkForUpdates( startup );
+        PacketUtils.init();
         if ( !CachedCaptcha.generated )
         {
             CaptchaGeneration.generateImages();
         }
         normalState = getCheckState( Settings.IMP.PROTECTION.NORMAL );
         attackState = getCheckState( Settings.IMP.PROTECTION.ON_ATTACK );
-        PacketUtils.init();
         sql = new Sql( this );
         geoIp = new GeoIp( startup );
         serverPingUtils = new ServerPingUtils( this );
