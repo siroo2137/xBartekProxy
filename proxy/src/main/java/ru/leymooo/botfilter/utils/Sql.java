@@ -139,12 +139,19 @@ public class Sql
         long until = calendar.getTimeInMillis();
         int before = botFilter.getUsersCount();
         botFilter.getUserCache().entrySet().removeIf( (entry) -> entry.getValue().getLastJoin() < until );
-        logger.log( Level.INFO, "[BotFilter] Удалено {0} аккаунтов из памяти", before - botFilter.getUsersCount() );
+        if ( ( before - botFilter.getUsersCount() ) > 0 )
+        {
+            logger.log( Level.INFO, "[BotFilter] Удалено {0} аккаунтов из памяти", before - botFilter.getUsersCount() );
+        }
         if ( this.connection != null )
         {
             try ( PreparedStatement statement = connection.prepareStatement( "DELETE FROM `Users` WHERE `LastJoin` < " + until + ";" ) )
             {
-                logger.log( Level.INFO, "[BotFilter] Удалено {0} аккаунтов из датабазы", statement.executeUpdate() );
+                int removed = statement.executeUpdate();
+                if ( removed > 0 )
+                {
+                    logger.log( Level.INFO, "[BotFilter] Удалено {0} аккаунтов из датабазы", removed );
+                }
             }
         }
     }
@@ -173,7 +180,7 @@ public class Sql
         try ( PreparedStatement statament = connection.prepareStatement( "SELECT * FROM `Users` WHERE `LastJoin` > " + lastSync + ";" );
               ResultSet set = statament.executeQuery() )
         {
-            int i = 0;
+            int synced = 0;
             while ( set.next() )
             {
                 String name = set.getString( "Name" );
@@ -184,9 +191,12 @@ public class Sql
                 botFilter.removeUser( name );
                 BotFilterUser botFilterUser = new BotFilterUser( name, ip, lastCheck, lastJoin );
                 botFilter.addUserToCache( botFilterUser );
-                i++;
+                synced++;
             }
-            logger.log( Level.INFO, "[BotFilter] Синхронизировано ({0}) новых проверок", i );
+            if ( synced > 0 )
+            {
+                logger.log( Level.INFO, "[BotFilter] Синхронизировано ({0}) новых проверок", synced );
+            }
             lastSync = curr;
         } catch ( Exception e )
         {
