@@ -267,10 +267,7 @@ public class PacketUtils
         {
             channel.write( getCachedPacket( PacketsPosition.PLAYERABILITIES ).get( version ), channel.voidPromise() );
         }
-        if ( version >= ProtocolConstants.MINECRAFT_1_19_3 )
-        {
-            channel.write( getCachedPacket( PacketsPosition.DEFAULT_SPAWN_POSITION ).get( version ), channel.voidPromise() );
-        }
+        channel.write( getCachedPacket( PacketsPosition.DEFAULT_SPAWN_POSITION ).get( version ), channel.voidPromise() );
         if ( captcha )
         {
             channel.write( getCachedPacket( PacketsPosition.PLAYERPOSANDLOOK_CAPTCHA ).get( version ), channel.voidPromise() );

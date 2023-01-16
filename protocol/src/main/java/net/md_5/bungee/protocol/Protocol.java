@@ -649,6 +649,17 @@ public enum Protocol
             );
             TO_CLIENT.registerPacket(
                     DefaultSpawnPosition.class, DefaultSpawnPosition::new,
+                    map( ProtocolConstants.MINECRAFT_1_8, 0x05 ),
+                    map( ProtocolConstants.MINECRAFT_1_9, 0x43 ),
+                    map( ProtocolConstants.MINECRAFT_1_12, 0x45 ),
+                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x46 ),
+                    map( ProtocolConstants.MINECRAFT_1_13, 0x49 ),
+                    map( ProtocolConstants.MINECRAFT_1_14, 0x4D ),
+                    map( ProtocolConstants.MINECRAFT_1_15, 0x4E ),
+                    map( ProtocolConstants.MINECRAFT_1_16, 0x42 ),
+                    map( ProtocolConstants.MINECRAFT_1_17, 0x4B ),
+                    map( ProtocolConstants.MINECRAFT_1_19, 0x4A ),
+                    map( ProtocolConstants.MINECRAFT_1_19_1, 0x4D ),
                     map( ProtocolConstants.MINECRAFT_1_19_3, 0x4C )
             );
             TO_SERVER.registerPacket(

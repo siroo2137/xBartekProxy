@@ -22,9 +22,21 @@ public class DefaultSpawnPosition extends DefinedPacket
     @Override
     public void write(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
     {
-        long location = ( ( this.posX & 0x3FFFFFFL ) << 38 ) | ( ( this.posZ & 0x3FFFFFFL ) << 12 ) | ( this.posY & 0xFFFL );
+        long location;
+        if ( protocolVersion < ProtocolConstants.MINECRAFT_1_14 )
+        {
+            location = ( ( this.posX & 0x3FFFFFFL ) << 38 ) | ( ( this.posY & 0xFFFL ) << 26 ) | ( this.posZ & 0x3FFFFFFL );
+        } else
+        {
+            location = ( ( this.posX & 0x3FFFFFFL ) << 38 ) | ( ( this.posZ & 0x3FFFFFFL ) << 12 ) | ( this.posY & 0xFFFL );
+        }
+
         buf.writeLong( location );
-        buf.writeFloat( this.angle );
+
+        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_17 )
+        {
+            buf.writeFloat( this.angle );
+        }
     }
 
     @Override
