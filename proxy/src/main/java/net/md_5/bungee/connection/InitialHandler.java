@@ -590,7 +590,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             if ( oldID != null )
             {
                 // TODO See #1218
-                disconnect( bungee.getTranslation( "already_connected_proxy" ) );// TODO: Cache this disconnect packet
+                disconnect( bungee.getTranslation( "already_connected_proxy" ) ); // TODO: Cache this disconnect packet
             }
         } else
         {

@@ -90,12 +90,9 @@ public class EmptyChunkPacket extends DefinedPacket
         if ( version < ProtocolConstants.MINECRAFT_1_13 )
         {
             writeArray( new byte[256], buf ); //1.8 - 1.12.2
-        } else if ( version == ProtocolConstants.MINECRAFT_1_13 )
-        {
-            writeArray( new byte[512], buf ); //1.13
         } else if ( version < ProtocolConstants.MINECRAFT_1_15 )
         {
-            writeArray( new byte[1024], buf ); //1.13.1 - 1.14.4
+            writeArray( new byte[1024], buf ); //1.13 - 1.14.4
         } else if ( version < ProtocolConstants.MINECRAFT_1_18 )
         {
             writeVarInt( 0, buf ); //1.15 - 1.17.1

@@ -94,6 +94,7 @@ public class PacketUtils
                 message.release();
             }
         }
+
         kickMessagesGame.clear();
 
         expPackets = new CachedExpPackets();
@@ -131,7 +132,6 @@ public class PacketUtils
         {
             PacketUtils.cachedPackets[i] = new CachedPacket( packets[i], Protocol.BotFilter, Protocol.GAME );
         }
-
 
         messages = new CachedMessage[]
         {

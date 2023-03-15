@@ -40,7 +40,7 @@ public class PlayerPositionAndLook extends DefinedPacket
         {
             PlayerPositionAndLook.writeVarInt( teleportId, buf );
         }
-        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_17 )
+        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_17 && protocolVersion <= ProtocolConstants.MINECRAFT_1_19_3 )
         {
             buf.writeBoolean( true ); // Dismount Vehicle
         }

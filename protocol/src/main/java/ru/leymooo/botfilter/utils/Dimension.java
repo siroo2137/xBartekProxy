@@ -1,13 +1,18 @@
 package ru.leymooo.botfilter.utils;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import net.md_5.bungee.protocol.ProtocolConstants;
 import se.llbit.nbt.ByteTag;
 import se.llbit.nbt.CompoundTag;
@@ -25,20 +30,34 @@ import se.llbit.nbt.Tag;
 //Изменил: BoomEaro
 @RequiredArgsConstructor
 @Getter
-public enum Dimension
+public class Dimension
 {
-    OVERWORLD( "minecraft:overworld", 0, 0, false, true, 0.0f,
-            "minecraft:infiniburn_overworld", false, true, true,
-            "minecraft:overworld", true, 0, 0,
-            256, 1.0f, false, false, 0, 256 ),
-    THE_NETHER( "minecraft:the_nether", -1, 2, false, true, 0.0f,
-                       "minecraft:infiniburn_nether", false, true, true,
-                       "minecraft:the_nether", true, 0, 0,
-                       256, 1.0f, false, false, 0, 256 ),
-    THE_END( "minecraft:the_end", 1, 3, false, true, 0.0f,
-                        "minecraft:infiniburn_end", false, true, true,
-                        "minecraft:the_end", true, 0, 0,
-                        256, 1.0f, false, false, 0, 256 );
+    static CompoundTag damageType;
+
+    static
+    {
+        try
+        {
+            damageType = (CompoundTag) CompoundTag.read(
+                new DataInputStream( new BufferedInputStream( new GZIPInputStream( Dimension.class.getResourceAsStream( "/damage-types-1.19.4.nbt" ) ) ) ) ).get( "" );
+        } catch ( IOException e )
+        {
+            throw new RuntimeException( e );
+        }
+    }
+
+    public static Dimension OVERWORLD = new Dimension( "minecraft:overworld", 0, 0, false, true, 0.0f,
+        "minecraft:infiniburn_overworld", false, true, true,
+        "minecraft:overworld", true, 0, 0,
+        256, 1.0f, false, false, 0, 256, Arrays.asList( Biome.PLAINS, Biome.SWAMP, Biome.SWAMP_HILLS ) );
+    public static Dimension THE_NETHER = new Dimension( "minecraft:the_nether", -1, 2, false, true, 0.0f,
+        "minecraft:infiniburn_nether", false, true, true,
+        "minecraft:the_nether", true, 0, 0,
+        256, 1.0f, false, false, 0, 256, Arrays.asList( Biome.NETHER_WASTES ) );
+    public static Dimension THE_END = new Dimension( "minecraft:the_end", 1, 3, false, true, 0.0f,
+        "minecraft:infiniburn_end", false, true, true,
+        "minecraft:the_end", true, 0, 0,
+        256, 1.0f, false, false, 0, 256, Arrays.asList( Biome.THE_END ) );
     private final String key;
     private final int dimensionId;
     private final int id;
@@ -63,6 +82,10 @@ public enum Dimension
 
     private final int minY;
     private final int height;
+
+    private final List<Biome> biomes;
+
+    @SneakyThrows
     public Tag getFullCodec(int protocolVersion)
     {
         CompoundTag attributes = encodeAttributes( protocolVersion );
@@ -89,6 +112,10 @@ public enum Dimension
         root.add( "minecraft:dimension_type", dimensions );
         root.add( "minecraft:worldgen/biome", createBiomeRegistry() );
 
+        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19_4 )
+        {
+            root.add( "minecraft:damage_type", damageType );
+        }
         if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 )
         {
             root.add( "minecraft:chat_type", createChatRegistry( protocolVersion ) );
@@ -96,6 +123,7 @@ public enum Dimension
 
         return new NamedTag( "", root );
     }
+
     public Tag getAttributes(int protocolVersion)
     {
         return new NamedTag( "", encodeAttributes( protocolVersion ) );
@@ -161,7 +189,7 @@ public enum Dimension
         CompoundTag root = new CompoundTag();
         root.add( "type", new StringTag( "minecraft:worldgen/biome" ) );
         List<CompoundTag> biomes = new ArrayList<>();
-        for ( Biome biome : Biome.values() )
+        for ( Biome biome : this.biomes )
         {
             biomes.add( encodeBiome( biome ) );
         }
@@ -214,6 +242,9 @@ public enum Dimension
 
         CompoundTag element = new CompoundTag();
         element.add( "precipitation", new StringTag( biome.getPrecipitation() ) );
+
+        element.add( "has_precipitation", new ByteTag( biome.getPrecipitation().equals( "none" ) ? 0 : 1 ) );
+
         element.add( "depth", new FloatTag( biome.getDepth() ) );
         element.add( "temperature", new FloatTag( biome.getTemperature() ) );
         element.add( "scale", new FloatTag( biome.getScale() ) );
@@ -246,30 +277,31 @@ public enum Dimension
         biomeTag.add( "element", element );
         return biomeTag;
     }
+
     @RequiredArgsConstructor
     @Getter
     public enum Biome
     {
         PLAINS( "minecraft:plains", 1, "rain", 0.125f, 0.8f, 0.05f,
-                0.4f, "plains", 7907327, 329011, 12638463,
-                4159204, 6000, 2.0d, 8, "minecraft:ambient.cave",
-                null, Integer.MIN_VALUE ),
+            0.4f, "plains", 7907327, 329011, 12638463,
+            4159204, 6000, 2.0d, 8, "minecraft:ambient.cave",
+            null, Integer.MIN_VALUE ),
         SWAMP( "minecraft:swamp", 6, "rain", -0.2f, 0.8f, 0.1f, 0.9f,
-                "swamp", 7907327, 2302743, 12638463, 6388580,
-                6000, 2.0d, 8, "minecraft:ambient.cave", "swamp",
-                6975545 ),
+            "swamp", 7907327, 2302743, 12638463, 6388580,
+            6000, 2.0d, 8, "minecraft:ambient.cave", "swamp",
+            6975545 ),
         SWAMP_HILLS( "minecraft:swamp_hills", 134, "rain", -0.1f, 0.8f, 0.3f,
-                0.9f, "swamp", 7907327, 2302743, 12638463,
-                6388580, 6000, 2.0d, 8, "minecraft:ambient.cave",
-                "swamp", 6975545 ),
+            0.9f, "swamp", 7907327, 2302743, 12638463,
+            6388580, 6000, 2.0d, 8, "minecraft:ambient.cave",
+            "swamp", 6975545 ),
         NETHER_WASTES( "minecraft:nether_wastes", 8, "none", 0.1f, 2.0f, 0.2f,
-                0.0f, "nether", 7254527, 329011, 3344392,
-                4159204, 6000, 2.0d, 8, "minecraft:ambient.cave",
-                "swamp", 6975545 ),
+            0.0f, "nether", 7254527, 329011, 3344392,
+            4159204, 6000, 2.0d, 8, "minecraft:ambient.cave",
+            "swamp", 6975545 ),
         THE_END( "minecraft:the_end", 9, "none", 0.1f, 0.5f, 0.2f,
-                             0.5f, "the_end", 7907327, 10518688, 12638463,
-                4159204, 6000, 2.0d, 8, "minecraft:ambient.cave",
-                             "swamp", 6975545 );
+            0.5f, "the_end", 7907327, 10518688, 12638463,
+            4159204, 6000, 2.0d, 8, "minecraft:ambient.cave",
+            "swamp", 6975545 );
         private final String name;
         private final int id;
         //elements
