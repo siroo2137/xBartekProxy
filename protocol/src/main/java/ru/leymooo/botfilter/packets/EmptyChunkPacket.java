@@ -112,7 +112,7 @@ public class EmptyChunkPacket extends DefinedPacket
 
         if ( version >= ProtocolConstants.MINECRAFT_1_18 ) //light data
         {
-            byte[] lightData = new byte[] { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, -1, -1, 0, 0 };
+            byte[] lightData = new byte[] {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, -1, -1, 0, 0};
             if ( version >= ProtocolConstants.MINECRAFT_1_20 )
             {
                 buf.writeBytes( lightData, 1, lightData.length );

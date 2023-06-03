@@ -183,6 +183,7 @@
                     </signature>
                 </configuration>
             </plugin>
+            <!-- BotFilter disable..
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -194,9 +195,9 @@
                             <rules>
                                 <dependencyConvergence>
                                     <excludes>
-                                        <!-- org.apache.maven:maven-resolver-provider is inconsistent -->
+                                        < org.apache.maven:maven-resolver-provider is inconsistent >
                                         <exclude>org.apache.commons:commons-lang3</exclude>
-                                        <!-- org.apache.maven:maven-resolver-transport-http is inconsistent -->
+                                        < org.apache.maven:maven-resolver-transport-http is inconsistent >
                                         <exclude>org.apache.httpcomponents:httpcore</exclude>
                                     </excludes>
                                 </dependencyConvergence>
@@ -208,6 +209,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
         </plugins>
     </build>
     <profiles>

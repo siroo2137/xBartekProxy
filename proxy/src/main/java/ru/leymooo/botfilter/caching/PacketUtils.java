@@ -119,16 +119,16 @@ public class PacketUtils
         DefinedPacket[] packets =
         {
             new JoinGame( CLIENTID, dimension ), //0
-            new TimeUpdate( 1, 23700 ), //2
-            new PlayerAbilities( (byte) 6, 0f, 0f ), //3
-            new PlayerPositionAndLook( 7.00, 450, 7.00, 90f, 38f, 9876, false ), //4
-            new SetSlot( 0, 36, 358, 1, 0 ), //5 map 1.8+
-            new SetSlot( 0, 36, -1, 0, 0 ), //6 map reset
-            new KeepAlive( KEEPALIVE_ID ), //7
-            new PlayerPositionAndLook( 7.00, 450, 7.00, 90f, 10f, 9876, false ), //8
-            new SetExp( 0, 0, 0 ), //9
-            createPluginMessage(), //10
-            new DefaultSpawnPosition( 7, 450, 7, 123 ) //11
+            new TimeUpdate( 1, 23700 ), //1
+            new PlayerAbilities( (byte) 6, 0f, 0f ), //2
+            new PlayerPositionAndLook( 7.00, 450, 7.00, 90f, 38f, 9876, false ), //3
+            new SetSlot( 0, 36, 358, 1, 0 ), //4 map 1.8+
+            new SetSlot( 0, 36, -1, 0, 0 ), //5 map reset
+            new KeepAlive( KEEPALIVE_ID ), //6
+            new PlayerPositionAndLook( 7.00, 450, 7.00, 90f, 10f, 9876, false ), //7
+            new SetExp( 0, 0, 0 ), //8
+            createPluginMessage(), //9
+            new DefaultSpawnPosition( 7, 450, 7, 123 ) //10
         };
 
         for ( int i = 0; i < packets.length; i++ )
@@ -142,7 +142,7 @@ public class PacketUtils
             {
                 for ( int z = -1; z <= 1; z++ )
                 {
-                    chunksPackets.add( new CachedPacket( new EmptyChunkPacket( x, z ), Protocol.BotFilter ));
+                    chunksPackets.add( new CachedPacket( new EmptyChunkPacket( x, z ), Protocol.BotFilter ) );
                 }
             }
         }
