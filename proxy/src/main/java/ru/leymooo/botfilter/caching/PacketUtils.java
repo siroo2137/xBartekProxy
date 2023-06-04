@@ -67,7 +67,12 @@ public class PacketUtils
         Arrays.fill( VERSION_REWRITE, -1 );
         for ( int i = 0; i < ProtocolConstants.SUPPORTED_VERSION_IDS.size(); i++ )
         {
-            VERSION_REWRITE[ProtocolConstants.SUPPORTED_VERSION_IDS.get( i )] = i;
+            int version = ProtocolConstants.SUPPORTED_VERSION_IDS.get( i );
+            /* if ( version == 1073741965 )
+            {
+                version = 763;
+            } */
+            VERSION_REWRITE[version] = i;
         }
         if ( expPackets != null )
         {
@@ -264,6 +269,10 @@ public class PacketUtils
 
     public static int rewriteVersion(int version)
     {
+        /* if ( version == 1073741965 )
+            {
+                version = 763;
+            } */
         int rewritten = VERSION_REWRITE[version];
         if ( rewritten == -1 )
         {

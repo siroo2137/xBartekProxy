@@ -109,7 +109,7 @@ public class SetSlot extends DefinedPacket
             return 937;
         } else
         {
-            return 937; //TODO: 1.20 id
+            return 941;
         }
     }
 
