@@ -132,6 +132,10 @@ public class Login extends DefinedPacket
                 portalCooldown = readVarInt( buf );
             }
         }
+        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_20 )
+        {
+            portalCooldown = readVarInt( buf );
+        }
     }
 
     @Override
@@ -228,6 +232,10 @@ public class Login extends DefinedPacket
             {
                 writeVarInt( portalCooldown, buf );
             }
+        }
+        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_20 )
+        {
+            writeVarInt( portalCooldown, buf );
         }
     }
 

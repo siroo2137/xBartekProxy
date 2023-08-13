@@ -74,7 +74,7 @@ public class ServerConnector extends PacketHandler
     private enum State
     {
 
-        LOGIN_SUCCESS, ENCRYPT_RESPONSE, LOGIN, FINISHED;
+        LOGIN_SUCCESS, LOGIN, FINISHED;
     }
 
     @Override
@@ -85,13 +85,13 @@ public class ServerConnector extends PacketHandler
             return;
         }
 
-        String message = "Exception Connecting:" + Util.exception( t );
+        String message = ChatColor.RED + "Exception Connecting: " + Util.exception( t );
         if ( user.getServer() == null )
         {
             user.disconnect( message );
         } else
         {
-            user.sendMessage( ChatColor.RED + message );
+            user.sendMessage( message );
         }
     }
 
@@ -228,7 +228,8 @@ public class ServerConnector extends PacketHandler
 
             // Set tab list size, TODO: what shall we do about packet mutability
             Login modLogin = new Login( login.getEntityId(), login.isHardcore(), login.getGameMode(), login.getPreviousGameMode(), login.getWorldNames(), login.getDimensions(), login.getDimension(), login.getWorldName(), login.getSeed(), login.getDifficulty(),
-                    (byte) user.getPendingConnection().getListener().getTabListSize(), login.getLevelType(), login.getViewDistance(), login.getSimulationDistance(), login.isReducedDebugInfo(), login.isNormalRespawn(), login.isDebug(), login.isFlat(), login.getDeathLocation(), login.getPortalCooldown() );
+                    (byte) user.getPendingConnection().getListener().getTabListSize(), login.getLevelType(), login.getViewDistance(), login.getSimulationDistance(), login.isReducedDebugInfo(), login.isNormalRespawn(), login.isDebug(), login.isFlat(), login.getDeathLocation(),
+                    login.getPortalCooldown() );
 
             user.unsafe().sendPacket( modLogin );
 
