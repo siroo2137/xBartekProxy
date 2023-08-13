@@ -73,10 +73,6 @@ public class Respawn extends DefinedPacket
             {
                 deathLocation = new Location( readString( buf ), buf.readLong() );
             }
-            if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_20 )
-            {
-                portalCooldown = readVarInt( buf );
-            }
         }
         if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_20 )
         {
@@ -130,10 +126,6 @@ public class Respawn extends DefinedPacket
             } else
             {
                 buf.writeBoolean( false );
-            }
-            if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_20 )
-            {
-                writeVarInt( portalCooldown, buf );
             }
         }
         if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_20 )
