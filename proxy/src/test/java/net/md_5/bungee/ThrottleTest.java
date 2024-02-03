@@ -27,7 +27,7 @@ public class ThrottleTest
     public void testThrottle() throws InterruptedException, UnknownHostException
     {
         FixedTicker ticker = new FixedTicker();
-        ConnectionThrottle throttle = new ConnectionThrottle((com.github.benmanes.caffeine.cache.Ticker) ticker, 10, 3 );
+        ConnectionThrottle throttle = new ConnectionThrottle(ticker, 10, 3 );
         InetSocketAddress address;
 
         try
