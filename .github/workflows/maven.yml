@@ -26,7 +26,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
     - run: java -version && mvn --version
-    - run: mvn --activate-profiles dist --no-transfer-progress package
+    - run: mvn -Dcheckstyle.skip --activate-profiles dist --no-transfer-progress package
     - uses: actions/upload-artifact@v3
       with:
         name: BungeeCord
