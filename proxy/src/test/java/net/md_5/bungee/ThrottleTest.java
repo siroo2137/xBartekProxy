@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class ThrottleTest
 {
 
-    private class FixedTicker extends Ticker
+    private class FixedTicker implements Ticker
     {
 
         private long value;
