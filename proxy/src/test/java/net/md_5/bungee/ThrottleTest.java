@@ -1,18 +1,19 @@
 package net.md_5.bungee;
 
-import static org.junit.jupiter.api.Assertions.*;
-import com.google.common.base.Ticker;
+import org.junit.jupiter.api.Test;
+
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
-import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ThrottleTest
 {
 
-    private class FixedTicker implements Ticker
-    {
+    private static class FixedTicker implements com.github.benmanes.caffeine.cache.Ticker {
 
         private long value;
 
@@ -23,8 +24,9 @@ public class ThrottleTest
         }
     }
 
+
     @Test
-    public void testThrottle() throws InterruptedException, UnknownHostException
+    public void testThrottle() throws UnknownHostException
     {
         FixedTicker ticker = new FixedTicker();
         ConnectionThrottle throttle = new ConnectionThrottle(ticker, 10, 3 );

@@ -334,7 +334,7 @@ public class PacketUtils
         TIMED_OUT,
         COUNTRY,
         LEAVED, //left
-        // THROTTLE,
+        THROTTLE,
         BIG_PACKET,
         PING;
     }

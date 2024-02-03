@@ -63,6 +63,14 @@ public class ConnectionThrottle
         return throttleCount > throttleLimit;
     }
 
+    public boolean throttle(InetSocketAddress socketAddress)
+    {
+        InetAddress address = ( (InetSocketAddress) socketAddress ).getAddress();
+        int throttleCount = throttle.get( address ).incrementAndGet();
+
+        return throttleCount > throttleLimit;
+    }
+
     public void cleanUP()
     {
         throttle.cleanUp();

@@ -37,9 +37,7 @@ import ru.leymooo.botfilter.utils.Sql;
 /**
  * @author Leymooo
  */
-public class BotFilter
-{
-
+public class BotFilter {
     public static final long ONE_MIN = 60000;
 
     @Getter
@@ -75,8 +73,7 @@ public class BotFilter
         Scoreboard.DISABLE_DUBLICATE = Settings.IMP.FIX_SCOREBOARD_TEAMS;
         checkForUpdates( startup );
         PacketUtils.init();
-        if ( !CachedCaptcha.generated )
-        {
+        if ( !CachedCaptcha.generated ) {
             CaptchaGeneration.generateImages();
         }
         normalState = getCheckState( Settings.IMP.PROTECTION.NORMAL );
@@ -119,11 +116,11 @@ public class BotFilter
     }
 
     /**
-     * Сохраняет игрока в памяти и в датебазе
+     * Saves the player in memory and in the database
      *
-     * @param userName Имя игрока
-     * @param address InetAddress игрока
-     * @param afterCheck игрок после проверки или нет
+     * @param userName Player name
+     * @param address Player's InetAddress
+     * @param afterCheck Player after verification or not
      */
     public void saveUser(String userName, InetAddress address, boolean afterCheck)
     {

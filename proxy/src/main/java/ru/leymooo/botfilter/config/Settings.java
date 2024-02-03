@@ -11,10 +11,7 @@ public class Settings extends Config
     @Ignore
     public static final Settings IMP = new Settings();
 
-    @Comment(
-        {
-        "Все ошибки, баги, предложения и прочее просьба писать на гитхабе "
-        })
+    @Comment({"Please write all errors, bugs, suggestions, etc. on Github"})
     @Final
     public final String ISSUES = "https://github.com/Leymooo/BungeeCord/issues";
     @Final
@@ -38,23 +35,23 @@ public class Settings extends Config
     public SQL SQL;
     @Comment(
         {
-        "Сколько игроков/ботов должно зайти за 1 минуту, чтобы включилась защита",
-        "Рекомендуемые параметры когда нет рекламы: ",
-        "До 150 онлайна - 25, до 250 - 30, до 350 - 35, до 550 - 40,45, выше - подстраивать под себя ",
-        "Во время рекламы или когда токо, токо поставили защиту рекомендуется повышать эти значения"
+        "How many players/bots must log in in 1 minute for the protection to turn on?",
+        "Recommended settings when there are no bots:",
+        "Up to 150 online - 25, up to 250 - 30, up to 350 - 35, up to 550 - 40.45, higher - adjust to your needs",
+        "During advertising or when protection has been installed, it is recommended to increase these values"
         })
     public int PROTECTION_THRESHOLD = 30;
-    @Comment("Как долго активна автоматическая защита? В миллисекундах. 1 сек = 1000")
+    @Comment("How long is automatic protection active? In milliseconds. 1 sec = 1000")
     public int PROTECTION_TIME = 120000;
-    @Comment("Проверять ли на бота при заходе на сервер во время бот атаки, не зависимо проходил ли проверку или нет")
+    @Comment("Should I check for a bot when entering the server during a bot attack, regardless of whether it passed the check or not?")
     public boolean FORCE_CHECK_ON_ATTACK = true;
-    @Comment("Показывать ли онлайн с фильтра")
+    @Comment("Whether to show online with filter")
     public boolean SHOW_ONLINE = true;
-    @Comment("Сколько времени есть у игрока чтобы пройти защиту. В миллисекундах. 1 сек = 1000")
+    @Comment("How much time does the player have to pass the defense? In milliseconds. 1 sec = 1000")
     public int TIME_OUT = 12700;
-    @Comment("Включить ли фикс от 'Team 'xxx' already exist in this scoreboard'")
+    @Comment("Should I enable the fix from 'Team 'xxx' already exist in this scoreboard'")
     public boolean FIX_SCOREBOARD_TEAMS = true;
-    @Comment("Записывать ли IP адреса игроков/ботов которые провалили проверку в файл?")
+    @Comment("Should I record the IP addresses of players/bots that failed the test in a file?")
     public boolean SAVE_FAILED_IPS_TO_FILE = true;
 
     public void reload(File file)
@@ -63,117 +60,117 @@ public class Settings extends Config
         save( file );
     }
 
-    @Comment("Не используйте '\\n', используйте %nl%")
+    @Comment("Don't use '\\n', use %nl%")
     public static class MESSAGES
     {
 
         public String PREFIX = "&b&lBot&d&lFilter";
-        public String CHECKING = "%prefix%&7>> &aОжидайте завершения проверки...";
-        public String CHECKING_CAPTCHA = "%prefix%&7>> &aВведите номер с картинки в чат";
-        public String CHECKING_CAPTCHA_WRONG = "%prefix%&7>> &cВы ввели капчу неправильно, пожалуйста попробуйте ещё раз. У вас &a%s &c%s";
-        public String SUCCESSFULLY = "%prefix%&7>> &aПроверка пройдена, приятной игры";
-        public String KICK_MANY_CHECKS = "%prefix%%nl%%nl%&cС вашего айпи замечена подозрительная активность%nl%%nl%&6Повторите попытку через 10 минут";
-        public String KICK_NOT_PLAYER = "%prefix%%nl%%nl%&cВы не прошли проверку, возможно вы бот%nl%&7&oЕсли это не так, пожалуйста повторите попытку";
-        public String KICK_COUNTRY = "%prefix%%nl%%nl%&cВаша страна запрещена на серверве";
-        public String KICK_BIG_PING = "%prefix%%nl%%nl%&cУ вас очень высокий пинг, скорее всего вы бот";
+        public String CHECKING = "%prefix%&7>> &aWait for the verification to complete...";
+        public String CHECKING_CAPTCHA = "%prefix%&7>> &aEnter the number from the picture into the chat";
+        public String CHECKING_CAPTCHA_WRONG = "%prefix%&7>> &cYou entered the captcha incorrectly, please try again. You have &a%s &c%s";
+        public String SUCCESSFULLY = "%prefix%&7>> &aVerification passed, enjoy the game";
+        public String KICK_MANY_CHECKS = "%prefix%%nl%%nl%&cSuspicious activity has been detected from your IP%nl%%nl%&6Try again in 10 minutes";
+        public String KICK_NOT_PLAYER = "%prefix%%nl%%nl%&cYou have not passed verification, you may be a bot%nl%&7&oIf not, please try again";
+        public String KICK_COUNTRY = "%prefix%%nl%%nl%& Your country is prohibited on the server";
+        public String KICK_BIG_PING = "%prefix%%nl%%nl%&cYour ping is very high, most likely you are a bot";
         @Comment(
             {
-            "Title%nl%Subtitle", "Оставьте пустым, чтобы отключить( прм: CHECKING_TITLE = \"\" )",
-            "Отключение титлов может немного улучшить производительность"
+            "Title%nl%Subtitle", "Leave empty to disable (prm: CHECKING_TITLE = \"\" )",
+            "Disabling titles may improve performance slightly"
             })
-        public String CHECKING_TITLE = "&r&lBot&b&lFilter%nl%&aИдёт проверка";
-        public String CHECKING_TITLE_SUS = "&rПроверка пройдена%nl%&aПриятной игры";
-        public String CHECKING_TITLE_CAPTCHA = " %nl%&rВведите капчу в чат!";
+        public String CHECKING_TITLE = "&r&lBot&b&lFilter%nl%&aChecking in progress";
+        public String CHECKING_TITLE_SUS = "&rVerification passed%nl%&aHave a nice game";
+        public String CHECKING_TITLE_CAPTCHA = " %nl%&rEnter the captcha in the chat!";
     }
 
-    @Comment("Включить или отключить GeoIp")
+    @Comment("Enable or disable GeoIp")
     public static class GEO_IP
     {
 
         @Comment(
             {
-            "Когда работает проверка",
-            "0 - Всегда",
-            "1 - Только во время бот атаки",
-            "2 - Отключить"
+            "When the check works",
+            "0 - Always",
+            "1 - Only during bot attack",
+            "2 - Disable"
             })
         public int MODE = 1;
         @Comment(
             {
-            "Как именно работает GeoIp",
-            "0 - White list(Зайти могут только те страны, которые есть в списке)",
-            "1 - Black list(Зайти могут только те страны, которых нет в списке)"
+            "How exactly does GeoIp work?",
+            "0 - White list (Only those countries that are on the list can enter)",
+            "1 - Black list (Only those countries that are not on the list can log in)"
             })
         public int TYPE = 0;
         @Comment(
             {
-            "Откуда качать GEOIP",
-            "Меняйте ссылку если по какой-то причине не качается по этой",
-            "Файл должен заканчиваться на .mmdb или быть запакован в .tar.gz"
+            "Where to download GEOIP from",
+            "Change the link if for some reason it doesn’t download for this reason",
+            "The file must end in .mmdb or be packaged in .tar.gz"
             })
         public String NEW_GEOIP_DOWNLOAD_URL = "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=%license_key%&suffix=tar.gz";
         @Comment(
             {
-            "Если ключ перестанет работать, то для того чтобы получить новый необходимо зарегестироваться на https://www.maxmind.com/",
-            "и сгенерировать новый ключ на странице https://www.maxmind.com/en/accounts/current/license-key"
+            "If the key stops working, then in order to get a new one you need to register at https://www.maxmind.com/",
+            "and generate a new key on the page https://www.maxmind.com/en/accounts/current/license-key"
             })
         public String MAXMIND_LICENSE_KEY = "P5g0fVdAQIq8yQau";
-        @Comment("Разрешённые странны")
+        @Comment("Allowed countries")
         public List<String> ALLOWED_COUNTRIES = Arrays.asList( "RU", "UA", "BY", "KZ", "EE", "MD", "KG", "AZ", "LT", "LV", "GE", "PL" );
     }
 
-    @Comment("Включить или отключить проверку на высокий пинг")
+    @Comment("Enable or disable high ping checking")
     public static class PING_CHECK
     {
 
         @Comment(
             {
-            "Когда работает проверка",
-            "0 - Всегда",
-            "1 - Только во время бот атаки",
-            "2 - Отключить"
+            "When the check works",
+            "0 - Always",
+            "1 - Only during bot attack",
+            "2 - Never"
             })
         public int MODE = 1;
-        @Comment("Максимальный допустимый пинг")
+        @Comment("Maximum allowed ping")
         public int MAX_PING = 350;
     }
 
-    @Comment("Включить или отключить проверку на прямое подключение")
+    @Comment("Direct connection checking")
     public static class SERVER_PING_CHECK
     {
 
         @Comment(
             {
-            "Когда работает проверка",
-            "0 - Всегда",
-            "1 - Только во время бот атаки",
-            "2 - Отключить",
-            "По умолчанию отключено, по скольку работает не очень стабильно, во время сильных атак"
+            "When the check works",
+            "0 - Always",
+            "1 - Only during bot attack",
+            "2 - Never",
+            "Disabled by default, as it is not very stable during strong attacks"
             })
         public int MODE = 2;
-        @Comment("В течении какого времени можно заходить на сервер после получения мотд сервера")
+        @Comment("How long can you log into the server after receiving the server mod?")
         public int CACHE_TIME = 12;
         public List<String> KICK_MESSAGE = new ArrayList()
         {
             {
                 add( "%nl%" );
                 add( "%nl%" );
-                add( "&cВы были кикнуты! Не используйте прямое подключение" );
+                add( "&cYou were kicked! Don't use direct connection" );
                 add( "%nl%" );
                 add( "%nl%" );
-                add( "&bДля того чтобы зайти на сервер:" );
+                add( "&bTo log into the server:" );
                 add( "%nl%" );
-                add( "&71) &rДобавте сервер в &lсписок серверов." );
+                add( "&71) &rAdd the server to the &llist of servers." );
                 add( "%nl%" );
-                add( "&lНаш айпи &8>> &b&lIP" );
-                add( "%nl%" );
-                add( "%nl%" );
-                add( "&72) &rОбновите список серверов. " );
-                add( "%nl%" );
-                add( "&oЧтобы его обновить нажмите кнопку &c&lОбновить &r&oили &c&lRefresh" );
+                add( "&lOur IP &8>> &b&lIP" );
                 add( "%nl%" );
                 add( "%nl%" );
-                add( "&73) &rПодождите &c1-3&r секунды и заходите!" );
+                add( "&72) &rUpdate the list of servers." );
+                add( "%nl%" );
+                add( "&oTo update it, click the &c&lRefresh &r&oor &c&lRefresh button" );
+                add( "%nl%" );
+                add( "%nl%" );
+                add( "&73) &rWait &c1-3&r seconds and come in!" );
 
             }
         };
@@ -181,74 +178,73 @@ public class Settings extends Config
 
     @Comment(
         {
-        "Настройка как именно будет работать защита",
-        "0 - Только проверка с помошью капчи",
-        "1 - Проверка на падение + капча",
-        "2 - Проверка на падение, если провалилась, то капча"
+        "Setting up exactly how the protection will work",
+        "0 - Captcha verification only",
+        "1 - Drop check + captcha",
+        "2 - Fall check, if it fails, then captcha"
         })
     public static class PROTECTION
     {
 
-        @Comment("Режим работы пока нет атаки")
+        @Comment("Operating mode: No attack yet")
         public int NORMAL = 2;
-        @Comment("Режим работы во время атаки")
+        @Comment("Operating mode: during an attack")
         public int ON_ATTACK = 1;
         @Comment(
             {
-            "Включить ли постоянную проверку игроков при заходе?",
-            "Включая эту функци, не забудьте увелечить лимиты у protection-threshold"
+            "Should I enable constant verification of players upon entry?",
+            "When enabling this feature, do not forget to increase the protection-threshold limits"
             })
         public boolean ALWAYS_CHECK = false;
 
         @Comment(
             {
-            "Проверять ли игроков у которых ип 127.0.0.1?", "Может быть полезным при использовании Geyser",
-            "0 - проверять", "1 - отключить проверку", "2 - проверять при каждом заходе"
+            "Should I check players whose IP is 127.0.0.1?", "May be useful when using Geyser",
+            "0 - Check", "1 - Never check", "2 - Check every time you enter"
             })
         public int CHECK_LOCALHOST = 0;
 
-        @Comment("Отключить ли проверку для клиентов с Geyser-standalone? Тип авторищации должен быть floodgate.")
+        @Comment("Never check for clients with Geyser-standalone? The authorization type must be floodgate.")
         public boolean SKIP_GEYSER = false;
-        /*
         @Comment(
                 {
-                    "Когда работают дополнительные проверки по протоколу",
-                    "    (Пакеты на которые клиент должен всегда отвечать)",
-                    "0 - Всегда",
-                    "1 - Только во время бот атаки",
-                    "2 - Отключить"
+                    "When additional protocol checks work",
+                    "    (Packets to which the client must always respond)",
+                    "0 - Always",
+                    "1 - Only during bot attack",
+                    "2 - Never"
                 })
         public int ADDITIONAL_CHECKS = 1;
-         */
+
     }
 
-    @Comment("Настройка датабазы")
+    @Comment("Database setup")
     public static class SQL
     {
 
-        @Comment("Тип датабазы. sqlite или mysql")
+        @Comment("Database type. sqlite or mysql")
         public String STORAGE_TYPE = "sqlite";
-        @Comment("Через сколько дней удалять игроков из датабазы, которые прошли проверку и больше не заходили. 0 или меньше чтобы отключить")
+        @Comment("After how many days should players be removed from the database if they have passed verification and never logged in again? 0 or less to Never")
         public int PURGE_TIME = 14;
-        @Comment("Настройки для mysql")
+        @Comment("Settings for mysql")
         public String HOSTNAME = "127.0.0.1";
         public int PORT = 3306;
         public String USER = "user";
         public String PASSWORD = "password";
         public String DATABASE = "database";
-        @Comment("Интервал в милисекундах, как часто синхронизировать базу данных если используется мультибанжа")
+        @Comment("Interval in milliseconds, how often to synchronize the database if multibundle is used")
         public int SYNC_INTERVAL = -1;
     }
 
-    @Comment("Настройка виртуального мира")
+    @Comment("Setting up the virtual world")
     public static class DIMENSIONS
     {
         @Comment(
             {
-            "Какой мир использовать",
-            "0 - Обычный мир",
-            "1 - Ад",
-            "2 - Энд"
+            "Which world to use",
+            "0 - Ordinary world",
+            "1 - Hell",
+            "2 - End"
             })
         public int TYPE = 0;
     }
